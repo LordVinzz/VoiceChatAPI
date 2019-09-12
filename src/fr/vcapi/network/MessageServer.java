@@ -3,10 +3,6 @@ package fr.vcapi.network;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.UUID;
-
-import fr.vcapi.management.DataClient;
-import fr.vcapi.packets.ConnectAnswer;
 
 public class MessageServer extends NetworkUtilities {
 
@@ -21,7 +17,7 @@ public class MessageServer extends NetworkUtilities {
 	
 	public MessageServer(int port) {
 		try {
-			socket = new DatagramSocket(port);
+			this.socket = new DatagramSocket(port);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -34,17 +30,9 @@ public class MessageServer extends NetworkUtilities {
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			
 			try {
-				socket.receive(packet);
+				this.socket.receive(packet);
 				Context ctx = Context.get(packet);
-				switch(ctx.getPacketType()) {
-				case CONNECTION_REQUEST :
-					UUID uuid = UUID.randomUUID();
-					clients.add(new DataClient(uuid, ctx.getIp(), ctx.getPort()));
-					sendObject(new ConnectAnswer(uuid), ctx.getIp(), ctx.getPort());
-					break;
-				case CONNECTION_ANSWER :
-					break;
-				}
+				ctx.getPacket().parsePacket(ctx, this);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

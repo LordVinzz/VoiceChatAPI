@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.UUID;
 
+import fr.vcapi.network.Context;
+
 public class DataClient implements Serializable {
 
 	private static final long serialVersionUID = -852244219002721768L;
@@ -12,6 +14,12 @@ public class DataClient implements Serializable {
 	InetAddress ip;
 	int port;
 
+	public DataClient(UUID uuid, Context ctx) {
+		this.uuid = uuid;
+		this.ip = ctx.getIp();
+		this.port = ctx.getPort();
+	}
+	
 	public DataClient(UUID uuid, InetAddress ip, int port) {
 		this.uuid = uuid;
 		this.ip = ip;
@@ -23,15 +31,15 @@ public class DataClient implements Serializable {
 	}
 
 	public InetAddress getIp() {
-		return ip;
+		return this.ip;
 	}
 	
 	public int getPort() {
-		return port;
+		return this.port;
 	}
 	
 	public UUID getUUID() {
-		return uuid;
+		return this.uuid;
 	}
 	
 }

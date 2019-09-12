@@ -2,14 +2,11 @@ package fr.vcapi.packets;
 
 import java.io.Serializable;
 
+import fr.vcapi.network.Context;
+import fr.vcapi.network.NetworkUtilities;
+
 public interface Packet extends Serializable {
 
-	PacketType packetType = null;
-	
-	public PacketType getPacketType();
-	
-	enum PacketType {
-		CONNECTION_REQUEST, CONNECTION_ANSWER
-	}
+	public void parsePacket(Context ctx, NetworkUtilities nUtil);
 	
 }

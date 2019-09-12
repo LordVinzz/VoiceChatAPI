@@ -7,7 +7,6 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 
 import fr.vcapi.packets.Packet;
-import fr.vcapi.packets.Packet.PacketType;
 
 public class Context {
 
@@ -15,7 +14,6 @@ public class Context {
 	private int port;
 	private byte[] rawData;
 	private Packet packet;
-	private PacketType packetType;
 	
 	public static Context get(DatagramPacket datagramPacket) {
 		Context ctx = new Context();
@@ -27,7 +25,6 @@ public class Context {
 		try {
 			stream = new ObjectInputStream(new ByteArrayInputStream(ctx.rawData));
 			ctx.packet = (Packet) stream.readObject();
-			ctx.packetType = ctx.packet.getPacketType();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -36,27 +33,27 @@ public class Context {
 	}
 	
 	public InetAddress getIp() {
-		return ip;
+		return this.ip;
 	}
 	
 	public int getPort() {
-		return port;
+		return this.port;
 	}
 	
 	public byte[] getRawData() {
-		return rawData;
+		return this.rawData;
 	}
 	
 	public int getRawDataLength() {
-		return rawData.length;
+		return this.rawData.length;
 	}
 	
 	public Packet getPacket() {
-		return packet;
+		return this.packet;
 	}
-	
-	public PacketType getPacketType() {
-		return packetType;
+
+	@Override
+	public String toString() {
+		return "Context [ip=" + ip + ", port=" + port + "]";
 	}
-	
 }

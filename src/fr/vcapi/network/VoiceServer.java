@@ -11,7 +11,7 @@ public class VoiceServer extends NetworkUtilities {
 	public VoiceServer(int port) {
 		try {
 			this.port = port;
-			socket = new DatagramSocket(port);
+			this.socket = new DatagramSocket(port);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -24,7 +24,7 @@ public class VoiceServer extends NetworkUtilities {
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 
 			try {
-				socket.receive(packet);
+				this.socket.receive(packet);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -32,6 +32,6 @@ public class VoiceServer extends NetworkUtilities {
 	}
 	
 	public int getPort() {
-		return port;
+		return this.port;
 	}
 }
