@@ -39,10 +39,18 @@ public class MessageServer extends NetworkUtilities {
 		}
 	}
 	
+	/**
+	 * Sets the MessageSever's VoiceServer to vs
+	 * 
+	 * @param vs
+	 */
 	public void setVoiceServer(VoiceServer vs) {
 		voiceServer=vs;
 	}
 	
+	/**
+	 * Runs a new thread for the VoiceServer
+	 */
 	public void runVoiceServer() {
 		voiceServer.start();
 	}

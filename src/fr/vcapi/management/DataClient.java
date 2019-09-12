@@ -16,7 +16,7 @@ public class DataClient implements Serializable {
 
 	public DataClient(UUID uuid, Context ctx) {
 		this.uuid = uuid;
-		this.ip = ctx.getIp();
+		this.ip = ctx.getIP();
 		this.port = ctx.getPort();
 	}
 	
@@ -30,7 +30,7 @@ public class DataClient implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public InetAddress getIp() {
+	public InetAddress getIP() {
 		return this.ip;
 	}
 	

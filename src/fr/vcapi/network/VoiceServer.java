@@ -31,6 +31,9 @@ public class VoiceServer extends NetworkUtilities {
 		}
 	}
 	
+	/**
+	 * @return The port of the VoiceServer
+	 */
 	public int getPort() {
 		return this.port;
 	}

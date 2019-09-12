@@ -32,22 +32,37 @@ public class Context {
 		return ctx;
 	}
 	
-	public InetAddress getIp() {
+	/**
+	 * @return The Context's IP
+	 */
+	public InetAddress getIP() {
 		return this.ip;
 	}
 	
+	/**
+	 * @return The Context's port
+	 */
 	public int getPort() {
 		return this.port;
 	}
 	
+	/**
+	 * @return The Context's unprocessed packet
+	 */
 	public byte[] getRawData() {
 		return this.rawData;
 	}
 	
+	/**
+	 * @return The Context's unprocessed packet length
+	 */
 	public int getRawDataLength() {
 		return this.rawData.length;
 	}
 	
+	/**
+	 * @return The Context's packet
+	 */
 	public Packet getPacket() {
 		return this.packet;
 	}

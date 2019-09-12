@@ -5,8 +5,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.UUID;
 
-import fr.vcapi.management.DataClient;
 import fr.vcapi.packets.ConnectRequest;
+import fr.vcapi.packets.Packet;
 
 public class Client extends NetworkUtilities {
 
@@ -47,26 +47,50 @@ public class Client extends NetworkUtilities {
 		}
 	}
 
+	
+	
+	/**
+	 * Checks if the provided UUID matches with the client's UUID
+	 * 
+	 * @param uuid
+	 * @return
+	 */
 	public boolean isItMe(UUID uuid) {
 		return this.selfUUID.equals(uuid);
 	}
 
-	public void sendToMessageServer(Object o) {
-		sendObject(o, ipAddress, MESSAGE_SERVER_PORT);
+	/**
+	 * Used to send a packet to the MessageServer
+	 * 
+	 * @param packet
+	 */
+	public void sendToMessageServer(Packet packet) {
+		sendObject(packet, ipAddress, MESSAGE_SERVER_PORT);
 	}
 
-	public void sendToVoiceServer(Object o) {
-		sendObject(o, ipAddress, VOICE_SERVER_PORT);
+	/**
+	 * Used to send a packet to the VoiceServer
+	 * 
+	 * @param packet
+	 */
+	public void sendToVoiceServer(Packet packet) {
+		sendObject(packet, ipAddress, VOICE_SERVER_PORT);
 	}
 
-	public InetAddress getServerIP() {
-		return this.ipAddress;
-	}
-
+	/**
+	 * Get the client's UUID
+	 * 
+	 * @return
+	 */
 	public UUID getUUID() {
 		return this.selfUUID;
 	}
 
+	/**
+	 * Set the client's UUID to selfUUID
+	 * 
+	 * @param selfUUID
+	 */
 	public void setUUID(UUID selfUUID) {
 		this.selfUUID = selfUUID;
 	}
