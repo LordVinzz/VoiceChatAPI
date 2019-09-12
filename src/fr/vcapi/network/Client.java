@@ -11,12 +11,12 @@ import fr.vcapi.packets.ConnectRequest;
 public class Client extends NetworkUtilities {
 
 	private InetAddress ipAddress;
-	private UUID selfUUID;
+	private UUID selfUUID = UUID.randomUUID();
 
 	public static void main(String[] args) {
 		Client client = new Client("localhost", MESSAGE_SERVER_PORT);
 
-		client.sendToMessageServer(new ConnectRequest());
+		client.sendToMessageServer(new ConnectRequest(client.getUUID()));
 
 		client.start();
 	}

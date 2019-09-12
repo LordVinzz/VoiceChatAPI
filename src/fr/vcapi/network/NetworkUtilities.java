@@ -22,6 +22,12 @@ public abstract class NetworkUtilities extends Thread {
 
 	protected static final int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
 
+	public void sendObjectToAll(Object o) {
+		for(DataClient client : clients) {
+			sendObject(o, client.getIp(), client.getPort());
+		}
+	}
+	
 	public void sendObject(Object o, InetAddress ip, int port) {
 		try {
 			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
