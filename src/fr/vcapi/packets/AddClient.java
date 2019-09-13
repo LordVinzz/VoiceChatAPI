@@ -22,7 +22,7 @@ public class AddClient implements Packet {
 	
 	/**
 	 * Method only used by the <a>Client</a> when the <a>MessageServer</a> sends a <a>AddClient</a>
-	 * It requests to all of the connected clients to add ( if not already done ), to add a specific
+	 * It requests to all of the connected clients to add ( if not already done ), a specific
 	 * user to the client list.
 	 * 
 	 * @param ctx Context of the call
@@ -42,7 +42,7 @@ public class AddClient implements Packet {
 		 */
 		
 		if (!client.clientExists(packet.getClientUUID()) && !client.isItMe(packet.getClientUUID())) {
-			client.addClient(new DataClient(packet.getClientUUID(), ctx));
+			client.addClient(new DataClient(packet.getClientUUID()));
 			client.log("New client registered !");
 		}
 	}

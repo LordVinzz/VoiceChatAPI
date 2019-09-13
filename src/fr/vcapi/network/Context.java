@@ -66,9 +66,8 @@ public class Context {
 	public Packet getPacket() {
 		return this.packet;
 	}
-
-	@Override
-	public String toString() {
-		return "Context [ip=" + ip + ", port=" + port + "]";
+	
+	public String getStringIP() {
+		return getIP().getCanonicalHostName() + ":" + getPort();
 	}
 }

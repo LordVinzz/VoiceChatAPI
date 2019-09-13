@@ -42,12 +42,16 @@ public class ConnectRequest implements Packet {
 		 * client can change it's UUID on each connections therefore attempt a double
 		 * connection by sending the connection packet twice.
 		 */
+		
 		if (!server.clientExists(ctx)) {
+			for(DataClient client : server.getClients()) {
+				server.sendObject(new AddClient(client.getUUID()), ctx.getIP(), ctx.getPort());
+			}
 			server.addClient(new DataClient(uuid, ctx));
 			server.sendObjectToAll(new AddClient(uuid));
-			server.log("New client connected successfully");
+			server.log("New client " + ctx.getStringIP() + " connected successfully");
 		} else {
-			server.log("Client " + ctx.toString() + " attempted a double connection");
+			server.log("Client " + ctx.getStringIP() + " attempted a double connection");
 		}
 	}
 
