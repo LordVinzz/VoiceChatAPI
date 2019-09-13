@@ -16,33 +16,27 @@ public class AddClient implements Packet {
 		this.clientUUID = client;
 	}
 
-	private UUID getClientUUID() {
-		return this.clientUUID;
-	}
-	
 	/**
-	 * Method only used by the <a>Client</a> when the <a>MessageServer</a> sends a <a>AddClient</a>
-	 * It requests to all of the connected clients to add ( if not already done ), a specific
-	 * user to the client list.
+	 * Method only used by the <a>Client</a> when the <a>MessageServer</a> sends a
+	 * <a>AddClient</a> It requests to all of the connected clients to add ( if not
+	 * already done ), a specific user to the client list.
 	 * 
-	 * @param ctx Context of the call
+	 * @param ctx   Context of the call
 	 * @param nUtil Context caller
 	 * 
 	 * @return void
 	 */
-	
+
 	@Override
 	public void parsePacket(Context ctx, NetworkUtilities nUtil) {
 		Client client = (Client)nUtil;
-		AddClient packet = (AddClient)ctx.getPacket();
 		
 		/*
 		 * If the client is already registered, we don't register him twice,
 		 * and if we are the user, we don't register ourselves 
 		 */
-		
-		if (!client.clientExists(packet.getClientUUID()) && !client.isItMe(packet.getClientUUID())) {
-			client.addClient(new DataClient(packet.getClientUUID()));
+		if (!client.clientExists(clientUUID) && !client.isItMe(clientUUID)) {
+			client.addClient(new DataClient(clientUUID));
 			client.log("New client registered !");
 		}
 	}

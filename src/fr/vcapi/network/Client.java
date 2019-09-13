@@ -6,7 +6,9 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 import fr.vcapi.packets.ConnectRequest;
+import fr.vcapi.packets.DisconnectRequest;
 import fr.vcapi.packets.Packet;
+import fr.vcapi.utils.DeathThread;
 
 public class Client extends NetworkUtilities {
 
@@ -17,8 +19,8 @@ public class Client extends NetworkUtilities {
 		Client client = new Client("localhost", MESSAGE_SERVER_PORT);
 
 		client.sendToMessageServer(new ConnectRequest(client.getUUID()));
-
 		client.start();
+		DeathThread.attach(client);
 	}
 
 	public Client(String stringAddress, int port) {

@@ -55,7 +55,7 @@ public abstract class NetworkUtilities extends Thread {
 	};
 
 	/**
-	 * Sends raw data to a specified user, might crash the user receiving it
+	 * Sends raw data to a specified user, might throw an exception receiving this
 	 * 
 	 * @param data
 	 * @param ip
@@ -63,8 +63,7 @@ public abstract class NetworkUtilities extends Thread {
 	 */
 	@Deprecated
 	protected void sendData(byte[] data, InetAddress ip, int port) {
-		if (data.length > packetSize)
-			throw new ArrayIndexOutOfBoundsException("data.length :" + data.length + " > packetBufferLength");
+		if (data.length > packetSize) throw new ArrayIndexOutOfBoundsException("data.length :" + data.length + " > packetBufferLength");
 		DatagramPacket packet = new DatagramPacket(data, data.length, ip, port);
 		try {
 			this.socket.send(packet);
@@ -155,5 +154,9 @@ public abstract class NetworkUtilities extends Thread {
 			}
 		}
 		return null;
+	}
+	
+	public void removeClientByUUID(UUID uuid) {
+		clients.remove(getClientByUUID(uuid));
 	}
 }

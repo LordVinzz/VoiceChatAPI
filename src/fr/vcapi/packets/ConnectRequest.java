@@ -10,15 +10,10 @@ import fr.vcapi.network.NetworkUtilities;
 public class ConnectRequest implements Packet {
 
 	private static final long serialVersionUID = -4213027016689187881L;
+	private UUID clientUUID;
 
-	UUID uuid;
-
-	public ConnectRequest(UUID uuid) {
-		this.uuid = uuid;
-	}
-
-	public UUID getUUID() {
-		return uuid;
+	public ConnectRequest(UUID client) {
+		this.clientUUID = client;
 	}
 
 	/**
@@ -44,11 +39,12 @@ public class ConnectRequest implements Packet {
 		 */
 		
 		if (!server.clientExists(ctx)) {
+			// The loop is used to send to 1 client all of the AddClient requests
 			for(DataClient client : server.getClients()) {
 				server.sendObject(new AddClient(client.getUUID()), ctx.getIP(), ctx.getPort());
 			}
-			server.addClient(new DataClient(uuid, ctx));
-			server.sendObjectToAll(new AddClient(uuid));
+			server.addClient(new DataClient(clientUUID, ctx));
+			server.sendObjectToAll(new AddClient(clientUUID));
 			server.log("New client " + ctx.getStringIP() + " connected successfully");
 		} else {
 			server.log("Client " + ctx.getStringIP() + " attempted a double connection");
