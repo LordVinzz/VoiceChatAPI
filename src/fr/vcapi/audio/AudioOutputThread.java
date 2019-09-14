@@ -35,8 +35,10 @@ public class AudioOutputThread extends Thread {
 	
 	public void run() {
 		while(running) {
-			if(queue.size() > THRESHOLD) {
-				queue.clear();
+			synchronized(this) {
+				if(queue.size() > THRESHOLD) {
+					queue.clear();
+				}
 			}
 			
 			synchronized (this) {
