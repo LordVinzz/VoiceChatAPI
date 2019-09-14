@@ -15,6 +15,15 @@ public class Context {
 	private byte[] rawData;
 	private Packet packet;
 	
+	/**
+	 * This function gets raw data from the datagram packet to transform it into an object
+	 * using context is very important cause it can carry useful informations for the server
+	 * such as the ip of the sender, on the other hand because of polymorphism, context might
+	 * not be useful at all for the clients
+	 * 
+	 * @param datagramPacket
+	 * @return Context
+	 */
 	public static Context get(DatagramPacket datagramPacket) {
 		Context ctx = new Context();
 		ctx.ip = datagramPacket.getAddress();

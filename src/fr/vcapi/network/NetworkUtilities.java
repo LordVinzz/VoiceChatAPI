@@ -21,7 +21,7 @@ public abstract class NetworkUtilities extends Thread {
 	protected int packetSize = 1024;
 	protected DatagramSocket socket;
 
-	protected static final int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
+	protected static int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
 
 	/**
 	 * Sends a packet to all of the registered clients

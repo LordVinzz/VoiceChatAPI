@@ -2,6 +2,7 @@ package fr.vcapi.packets;
 
 import java.util.UUID;
 
+import fr.vcapi.audio.AudioOutputThread;
 import fr.vcapi.management.DataClient;
 import fr.vcapi.network.Client;
 import fr.vcapi.network.Context;
@@ -36,7 +37,9 @@ public class AddClient implements Packet {
 		 * and if we are the user, we don't register ourselves 
 		 */
 		if (!client.clientExists(clientUUID) && !client.isItMe(clientUUID)) {
-			client.addClient(new DataClient(clientUUID));
+			DataClient dtaClient = new DataClient(clientUUID, new AudioOutputThread());
+			dtaClient.startAudioThread();
+			client.addClient(dtaClient);
 			client.log("New client registered !");
 		}
 	}

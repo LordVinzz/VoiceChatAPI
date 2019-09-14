@@ -5,9 +5,15 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.UUID;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.TargetDataLine;
+
 import fr.vcapi.packets.ConnectRequest;
 import fr.vcapi.packets.DisconnectRequest;
 import fr.vcapi.packets.Packet;
+import fr.vcapi.packets.VoicePacket;
 import fr.vcapi.utils.DeathThread;
 
 public class Client extends NetworkUtilities {
@@ -15,18 +21,40 @@ public class Client extends NetworkUtilities {
 	private InetAddress ipAddress;
 	private UUID selfUUID = UUID.randomUUID();
 
+	private AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+	private DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
+	private TargetDataLine targetLine;
+	
 	public static void main(String[] args) {
 		Client client = new Client("localhost", MESSAGE_SERVER_PORT);
 
 		client.sendToMessageServer(new ConnectRequest(client.getUUID()));
 		client.start();
 		DeathThread.attach(client);
+		
+		while(true) {
+			client.sendToVoiceServer(new VoicePacket(client.getVoice(), client.getUUID()));
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public byte[] getVoice() {
+		byte[] targetData = new byte[512];
+		targetLine.read(targetData, 0, targetData.length);
+		return targetData;
 	}
 
 	public Client(String stringAddress, int port) {
 		try {
 			this.socket = new DatagramSocket();
 			this.ipAddress = InetAddress.getByName(stringAddress);
+			this.targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
+			this.targetLine.open(format);
+			this.targetLine.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,5 +123,9 @@ public class Client extends NetworkUtilities {
 	 */
 	public void setUUID(UUID selfUUID) {
 		this.selfUUID = selfUUID;
+	}
+	
+	public void changeVoiceChatPort(int port) {
+		VOICE_SERVER_PORT = port;
 	}
 }

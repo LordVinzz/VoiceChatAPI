@@ -2,7 +2,6 @@ package fr.vcapi.packets;
 
 import java.util.UUID;
 
-import fr.vcapi.management.DataClient;
 import fr.vcapi.network.Context;
 import fr.vcapi.network.MessageServer;
 import fr.vcapi.network.NetworkUtilities;

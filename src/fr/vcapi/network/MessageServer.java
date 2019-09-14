@@ -4,6 +4,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import fr.vcapi.management.DataClient;
+
 public class MessageServer extends NetworkUtilities {
 
 	private VoiceServer voiceServer;
@@ -53,6 +55,12 @@ public class MessageServer extends NetworkUtilities {
 	 */
 	public void runVoiceServer() {
 		voiceServer.start();
+	}
+	
+	@Override
+	public void addClient(DataClient client) {
+		super.addClient(client);
+		this.voiceServer.addClient(client);
 	}
 	
 }

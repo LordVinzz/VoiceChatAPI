@@ -25,6 +25,8 @@ public class VoiceServer extends NetworkUtilities {
 
 			try {
 				this.socket.receive(packet);
+				Context ctx = Context.get(packet);
+				ctx.getPacket().parsePacket(ctx, this);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
