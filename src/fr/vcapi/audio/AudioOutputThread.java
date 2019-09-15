@@ -21,7 +21,7 @@ public class AudioOutputThread extends Thread {
 	private Queue<VoicePacket> queue = new LinkedList<VoicePacket>();
 	private boolean running;
 	
-	private static AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+	private static AudioFormat format = new AudioFormat(NetworkUtilities.SAMPLE_RATE, NetworkUtilities.SAMPLE_SIZE, NetworkUtilities.CHANNELS, true, true);
 	private static DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
 	private SourceDataLine sourceLine;
 	
