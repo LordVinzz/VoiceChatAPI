@@ -37,13 +37,15 @@ public class AudioOutputThread extends Thread {
 	
 	public void run() {
 		while(running) {
-			if (queue.size() > THRESHOLD) {
-				queue.clear();
-			}
-			
-			VoicePacket packet;
-			if ((packet = queue.poll()) != null) {
-				this.sourceLine.write(packet.getData(), 0, packet.getLength());
+			synchronized (this) {
+				if (queue.size() > THRESHOLD) {
+					queue.clear();
+				}
+				
+				VoicePacket packet;
+				if ((packet = queue.poll()) != null) {
+					this.sourceLine.write(packet.getData(), 0, packet.getLength());
+				}
 			}
 			
 			try {
@@ -54,7 +56,7 @@ public class AudioOutputThread extends Thread {
 		}
 	}
 
-	public synchronized void addToQueue(VoicePacket voicePacket) {
+	public void addToQueue(VoicePacket voicePacket) {
 		this.queue.add(voicePacket);
 	}
 	
