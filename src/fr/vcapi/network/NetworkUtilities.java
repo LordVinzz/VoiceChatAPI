@@ -25,6 +25,8 @@ public abstract class NetworkUtilities extends Thread {
 	
 	protected static int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
 
+	public static long deadTime = (long) (BLOCK_SIZE / (SAMPLE_RATE * (SAMPLE_SIZE / 8F)) * 1000F);
+	
 	/**
 	 * Sends a packet to all of the registered clients
 	 * 

@@ -11,6 +11,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 import fr.vcapi.network.Client;
+import fr.vcapi.network.NetworkUtilities;
 import fr.vcapi.packets.VoicePacket;
 
 public class AudioOutputThread extends Thread {
@@ -41,7 +42,8 @@ public class AudioOutputThread extends Thread {
 				if (queue.size() > THRESHOLD) {
 					queue.clear();
 				}
-				
+			}
+			synchronized (this) {
 				VoicePacket packet;
 				if ((packet = queue.poll()) != null) {
 					this.sourceLine.write(packet.getData(), 0, packet.getLength());
@@ -49,7 +51,7 @@ public class AudioOutputThread extends Thread {
 			}
 			
 			try {
-				TimeUnit.NANOSECONDS.sleep(Client.getDeadTime() / 2);
+				TimeUnit.MILLISECONDS.sleep(NetworkUtilities.deadTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

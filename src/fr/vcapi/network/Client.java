@@ -25,8 +25,6 @@ public class Client extends NetworkUtilities {
 	private DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
 	private TargetDataLine targetLine;
 	
-	private static long deadTime = (long) (BLOCK_SIZE / (SAMPLE_RATE * (SAMPLE_SIZE / 8F)) * 1000000000F);
-	
 	public static void main(String[] args) {
 		Client client = new Client("localhost", MESSAGE_SERVER_PORT);
 		
@@ -37,7 +35,7 @@ public class Client extends NetworkUtilities {
 		while(true) {
 			client.sendToVoiceServer(new VoicePacket(client.getVoice(), client.getUUID()));
 			try {
-				TimeUnit.NANOSECONDS.sleep(getDeadTime());
+				TimeUnit.MILLISECONDS.sleep(deadTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -129,9 +127,5 @@ public class Client extends NetworkUtilities {
 	
 	public void changeVoiceChatPort(int port) {
 		VOICE_SERVER_PORT = port;
-	}
-	
-	public static long getDeadTime() {
-		return deadTime;
 	}
 }
