@@ -18,9 +18,11 @@ import fr.vcapi.packets.Packet;
 public abstract class NetworkUtilities extends Thread {
 
 	protected ArrayList<DataClient> clients = new ArrayList<DataClient>();
-	protected int packetSize = 1024;
+	protected int packetSize = 704;
 	protected DatagramSocket socket;
 
+	public static final int BLOCK_SIZE = 512, SAMPLE_RATE = 44100, SAMPLE_SIZE = 16, CHANNELS = 1;
+	
 	protected static int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
 
 	/**

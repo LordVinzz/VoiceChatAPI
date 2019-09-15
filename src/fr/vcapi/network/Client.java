@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -11,7 +12,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
 import fr.vcapi.packets.ConnectRequest;
-import fr.vcapi.packets.DisconnectRequest;
 import fr.vcapi.packets.Packet;
 import fr.vcapi.packets.VoicePacket;
 import fr.vcapi.utils.DeathThread;
@@ -21,13 +21,15 @@ public class Client extends NetworkUtilities {
 	private InetAddress ipAddress;
 	private UUID selfUUID = UUID.randomUUID();
 
-	private AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+	private AudioFormat format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, true, true);
 	private DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
 	private TargetDataLine targetLine;
 	
+	private static long deadTime = (long) (BLOCK_SIZE / (SAMPLE_RATE * (SAMPLE_SIZE / 8F)) * 1000000000F);
+	
 	public static void main(String[] args) {
 		Client client = new Client("localhost", MESSAGE_SERVER_PORT);
-
+		
 		client.sendToMessageServer(new ConnectRequest(client.getUUID()));
 		client.start();
 		DeathThread.attach(client);
@@ -35,7 +37,7 @@ public class Client extends NetworkUtilities {
 		while(true) {
 			client.sendToVoiceServer(new VoicePacket(client.getVoice(), client.getUUID()));
 			try {
-				Thread.sleep(5);
+				TimeUnit.NANOSECONDS.sleep(getDeadTime());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -43,7 +45,7 @@ public class Client extends NetworkUtilities {
 	}
 
 	public byte[] getVoice() {
-		byte[] targetData = new byte[512];
+		byte[] targetData = new byte[BLOCK_SIZE];
 		targetLine.read(targetData, 0, targetData.length);
 		return targetData;
 	}
@@ -127,5 +129,9 @@ public class Client extends NetworkUtilities {
 	
 	public void changeVoiceChatPort(int port) {
 		VOICE_SERVER_PORT = port;
+	}
+	
+	public static long getDeadTime() {
+		return deadTime;
 	}
 }

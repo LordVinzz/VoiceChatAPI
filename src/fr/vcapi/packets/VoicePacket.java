@@ -12,7 +12,7 @@ public class VoicePacket implements Packet {
 
 	private static final long serialVersionUID = -8310956329351627200L;
 	
-	byte data[] = new byte[512];
+	byte data[] = new byte[NetworkUtilities.BLOCK_SIZE];
 	UUID signature;
 	
 	public VoicePacket(byte[] data, UUID signature) {
