@@ -98,7 +98,7 @@ public abstract class NetworkUtilities extends Thread {
 	}
 
 	/**
-	 * Adds a client to the arraylsit containing the clients
+	 * Adds a client to the arraylist containing the clients
 	 * 
 	 * @param client
 	 */

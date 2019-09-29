@@ -14,7 +14,7 @@ public class DataClient implements Serializable {
 	private UUID uuid;
 	private InetAddress ip;
 	private int port;
-	private AudioOutputThread audioThread;	
+	private AudioOutputThread audioThread;
 	
 	public DataClient(UUID uuid, Context ctx) {
 		this.uuid = uuid;
