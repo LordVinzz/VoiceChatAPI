@@ -32,7 +32,10 @@ public class VoicePacket implements Packet {
 	public void parsePacket(Context ctx, NetworkUtilities nUtil) {
 		if(nUtil instanceof Client) {
 			Client client = (Client)nUtil;
-			client.getClientByUUID(signature).getAudioThread().addToQueue(this);
+			DataClient player;
+			if((player = client.getClientByUUID(signature)) != null) {
+				player.getAudioThread().addToQueue(this);
+			}
 		}else if(nUtil instanceof VoiceServer) {
 			VoiceServer server = (VoiceServer)nUtil;
 
