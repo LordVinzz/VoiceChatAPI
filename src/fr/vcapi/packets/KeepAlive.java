@@ -2,6 +2,7 @@ package fr.vcapi.packets;
 
 import java.util.UUID;
 
+import fr.vcapi.management.DataClient;
 import fr.vcapi.network.Context;
 import fr.vcapi.network.MessageServer;
 import fr.vcapi.network.NetworkUtilities;
@@ -18,7 +19,10 @@ public class KeepAlive implements Packet {
 	@Override
 	public void parsePacket(Context ctx, NetworkUtilities nUtil) {
 		MessageServer server = (MessageServer)nUtil;
-		server.getClients();
+		DataClient client = server.getClientByUUID(clientUUID);
+		if(client != null) {
+			client.setLastKeepAlivePacket(0);
+		}
 	}
 
 }
