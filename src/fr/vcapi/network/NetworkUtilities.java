@@ -22,10 +22,10 @@ public abstract class NetworkUtilities extends Thread {
 	protected DatagramSocket socket;
 
 	public static final int BLOCK_SIZE = 512, SAMPLE_RATE = 44100, SAMPLE_SIZE = 16, CHANNELS = 1;
+	public static long deadTime = (long) (BLOCK_SIZE / (SAMPLE_RATE * (SAMPLE_SIZE / 8F)) * 1000F);
 	
 	protected static int MESSAGE_SERVER_PORT = 1331, VOICE_SERVER_PORT = 1329;
-
-	public static long deadTime = (long) (BLOCK_SIZE / (SAMPLE_RATE * (SAMPLE_SIZE / 8F)) * 1000F);
+	protected static float keepAlivePacketsInterval = 2F;
 	
 	/**
 	 * Sends a packet to all of the registered clients

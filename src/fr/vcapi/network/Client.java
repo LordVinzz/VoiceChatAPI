@@ -12,9 +12,11 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
 import fr.vcapi.packets.ConnectRequest;
+import fr.vcapi.packets.KeepAlive;
 import fr.vcapi.packets.Packet;
 import fr.vcapi.packets.VoicePacket;
 import fr.vcapi.utils.DeathThread;
+import fr.vcapi.utils.Timer;
 
 public class Client extends NetworkUtilities {
 
@@ -30,14 +32,25 @@ public class Client extends NetworkUtilities {
 		
 		client.sendToMessageServer(new ConnectRequest(client.getUUID()));
 		client.start();
-		DeathThread.attach(client);
 		
-		while(true) {
-			client.sendToVoiceServer(new VoicePacket(client.getVoice(), client.getUUID()));
+		DeathThread.attach(client);
+		client.loop();
+	}
+	
+	public void loop() {
+		Timer timer = new Timer(keepAlivePacketsInterval);
+
+		while (true) {
+			sendToVoiceServer(new VoicePacket(getVoice(), selfUUID));
 			try {
 				TimeUnit.MILLISECONDS.sleep(deadTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+			timer.tick(deadTime / 1000F);
+			if (timer.isReady()) {
+				sendToMessageServer(new KeepAlive(selfUUID));
+				timer.reset();
 			}
 		}
 	}
