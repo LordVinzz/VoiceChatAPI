@@ -160,7 +160,12 @@ public abstract class NetworkUtilities extends Thread {
 		return null;
 	}
 	
-	public void removeClientByUUID(UUID uuid) {
-		clients.remove(getClientByUUID(uuid));
+	public boolean removeClientByUUID(UUID uuid) {
+		DataClient client = getClientByUUID(uuid);
+		if(client != null) {
+			clients.remove(client);
+			return true;
+		}
+		return false;
 	}
 }

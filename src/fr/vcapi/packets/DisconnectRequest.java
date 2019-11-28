@@ -29,8 +29,11 @@ public class DisconnectRequest implements Packet {
 	@Override
 	public void parsePacket(Context ctx, NetworkUtilities nUtil) {
 		MessageServer server = (MessageServer) nUtil;
-		server.removeClientByUUID(clientUUID);
-		server.log("Client " + ctx.getStringIP() + " disconnected");
+		if (server.removeClientByUUID(clientUUID)) {
+			server.log("Client " + ctx.getStringIP() + " disconnected");
+		} else {
+			server.log("Failed to disconnect : " + ctx.getStringIP());
+		}
 		server.sendObjectToAll(new RemoveClient(clientUUID));
 	}
 

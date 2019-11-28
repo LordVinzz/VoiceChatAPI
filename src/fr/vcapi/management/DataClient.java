@@ -15,6 +15,7 @@ public class DataClient implements Serializable {
 	private InetAddress ip;
 	private int port;
 	private AudioOutputThread audioThread;
+	private int lastKeepAlivePacket = 0;
 	
 	public DataClient(UUID uuid, Context ctx) {
 		this.uuid = uuid;
@@ -55,5 +56,13 @@ public class DataClient implements Serializable {
 	
 	public void startAudioThread() {
 		this.audioThread.start();
+	}
+	
+	public int getLastKeepAlivePacket() {
+		return lastKeepAlivePacket;
+	}
+	
+	public void setLastKeepAlivePacket(int lastKeepAlivePacket) {
+		this.lastKeepAlivePacket = lastKeepAlivePacket;
 	}
 }
